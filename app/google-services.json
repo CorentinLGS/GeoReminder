@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "522631764160",
+    "firebase_url": "https://georeminder-c7588.firebaseio.com",
+    "project_id": "georeminder-c7588",
+    "storage_bucket": "georeminder-c7588.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:522631764160:android:f4f84c619005af489c7525",
+        "android_client_info": {
+          "package_name": "com.example.georeminder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "522631764160-lb03td132qk4401km42vrpuj3cnb8j3k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.georeminder",
+            "certificate_hash": "415fa97c85dcf61d9956793cc353bcd2f1494b57"
+          }
+        },
+        {
+          "client_id": "522631764160-kovqe166a73u27h6f78qjc6jmaspd5mc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfypgml757c_nk7o2fjgd05pfJhCZAnFA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "522631764160-kovqe166a73u27h6f78qjc6jmaspd5mc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
