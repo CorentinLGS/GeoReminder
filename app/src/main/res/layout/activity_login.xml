@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/common_google_signin_btn_text_light_pressed"
-    tools:context=".LoginActivity">
+    tools:context="georeminder.LoginActivity">
 
     <TextView
         android:id="@+id/text_info_signin"
