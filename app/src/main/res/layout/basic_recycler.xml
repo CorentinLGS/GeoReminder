@@ -4,35 +4,38 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/basic_recycler"
     android:layout_width="match_parent"
-    android:layout_height="50dp">
+    android:layout_height="50dp"
+    android:background="#121212">
 
-    <EditText
-        android:id="@+id/editText3"
+    <TextView
+        android:id="@+id/title_vh"
         android:layout_width="150dp"
         android:layout_height="23dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Name"
-        app:layout_constraintBottom_toTopOf="@+id/editText5"
+        android:textColor="@android:color/tertiary_text_light"
+        app:layout_constraintBottom_toTopOf="@+id/text_vh"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/editText4"
+    <TextView
+        android:id="@+id/date_vh"
         android:layout_width="107dp"
         android:layout_height="27dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
+        android:textColor="@android:color/tertiary_text_light"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <EditText
-        android:id="@+id/editText5"
+    <TextView
+        android:id="@+id/text_vh"
         android:layout_width="150dp"
         android:layout_height="27dp"
         android:ems="10"
         android:inputType="date"
+        android:textColor="@android:color/tertiary_text_light"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

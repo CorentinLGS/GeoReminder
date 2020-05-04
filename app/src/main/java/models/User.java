@@ -1,21 +1,33 @@
 package models;
 
-import java.util.List;
+import java.util.Vector;
+import java.util.Vector;
 
 public class User {
     private String uid_;
     private String username_;
-    private List<Reminder> basic_;
-    private List<Reminder> monthly_;
-    private List<Reminder> weekly_;
-    private List<Reminder> daily_;
+    private Vector<Reminder> basic_;
+    private Vector<MonthlyReminder> monthly_;
+    private Vector<WeeklyReminder> weekly_;
+    private Vector<DailyReminder> daily_;
+    private Vector<GeoReminder> geo_;
 
-    public User(){};
+    public User(){
+        basic_ = new Vector<Reminder>();
+        monthly_ = new Vector<MonthlyReminder>();
+        weekly_ = new Vector<WeeklyReminder>();
+        daily_ = new Vector<DailyReminder>();
+        geo_ = new Vector<GeoReminder>();
+    };
 
     public User(String uid, String username){
-
         uid_ = uid;
         username_ = username;
+        basic_ = new Vector<Reminder>();
+        monthly_ = new Vector<MonthlyReminder>();
+        weekly_ = new Vector<WeeklyReminder>();
+        daily_ = new Vector<DailyReminder>();
+        geo_ = new Vector<GeoReminder>();
     }
 
     public void addMonthlyReminder( MonthlyReminder reminder){
@@ -36,13 +48,46 @@ public class User {
         }
     }
 
-    public void addBasicReminder( Reminder reminder){
+    public void addBasicReminder(Reminder reminder){
         if(!basic_.contains(reminder)){
             basic_.add(reminder);
         }
     }
 
+    public void addGeoReminder(GeoReminder reminder){
+        if(!geo_.contains(reminder)){
+            geo_.add(reminder);
+        }
+    }
+
+    public String getUsername_() {
+        return username_;
+    }
+
+    public Vector<Reminder> getBasic_() {
+        return basic_;
+    }
+
+    public Vector<MonthlyReminder> getMonthly_() {
+        return monthly_;
+    }
+
+    public Vector<WeeklyReminder> getWeekly_() {
+        return weekly_;
+    }
+
+    public Vector<DailyReminder> getDaily_() {
+        return daily_;
+    }
+
+    public Vector<GeoReminder> getGeo_() {
+        return geo_;
+    }
+
     public String getUid_() {
         return uid_;
     }
+
+
+
 }

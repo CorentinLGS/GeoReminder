@@ -1,6 +1,8 @@
 package models;
 
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -8,6 +10,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import georeminder.MainActivity;
 
 public class DataManager {
 
@@ -46,43 +50,38 @@ public class DataManager {
         return db.collection("monthly")
                 .document(user_.getUid_())
                 .collection("Reminders")
-                .document(reminder.getTitle())
-                .set(reminder).isSuccessful();
+                .add(reminder).isSuccessful();
     }
 
     private boolean addWeeklyReminder(Reminder reminder){
         return db.collection("weekly")
                 .document(user_.getUid_())
                 .collection("Reminders")
-                .document(reminder.getTitle())
-                .set(reminder).isSuccessful();
+                .add(reminder).isSuccessful();
     }
 
     private boolean addDailyReminder(Reminder reminder){
         return db.collection("daily")
                 .document(user_.getUid_())
                 .collection("Reminders")
-                .document(reminder.getTitle())
-                .set(reminder).isSuccessful();
+                .add(reminder).isSuccessful();
     }
 
     private boolean addBasicReminder(Reminder reminder){
         return db.collection("basic")
                 .document(user_.getUid_())
                 .collection("Reminders")
-                .document(reminder.getTitle())
-                .set(reminder).isSuccessful();
+                .add(reminder).isSuccessful();
     }
 
     private boolean addGeoReminder(Reminder reminder){
         return db.collection("geo")
                 .document(user_.getUid_())
                 .collection("Reminders")
-                .document(reminder.getTitle())
-                .set(reminder).isSuccessful();
+                .add(reminder).isSuccessful();
     }
 
-    private void retrieveMonthlyReminders(){
+    public void retrieveMonthlyReminders(){
 
         db.collection("monthly").document(user_.getUid_()).collection("Reminders")
                 .get()
@@ -99,7 +98,7 @@ public class DataManager {
                 });
     }
 
-    private void retrieveWeeklyReminder(){
+    public void retrieveWeeklyReminder(){
 
         db.collection("weekly").document(user_.getUid_()).collection("Reminders")
                 .get()
@@ -116,7 +115,7 @@ public class DataManager {
                 });
     }
 
-    private void retrieveDailyReminder(){
+    public void retrieveDailyReminder(){
 
         db.collection("daily").document(user_.getUid_()).collection("Reminders")
                 .get()
@@ -133,26 +132,9 @@ public class DataManager {
                 });
     }
 
-    private void retrieveBasicReminder(){
+    public void retrieveBasicReminder(){
 
         db.collection("basic").document(user_.getUid_()).collection("Reminders")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            for(QueryDocumentSnapshot document : task.getResult()){
-                                MonthlyReminder reminder = document.toObject(MonthlyReminder.class);
-                                user_.addMonthlyReminder(reminder);
-                            }
-                        }
-                    }
-                });
-    }
-
-    private void retrieveGeoReminder(){
-
-        db.collection("monthly").document(user_.getUid_()).collection("Reminders")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -162,8 +144,38 @@ public class DataManager {
                                 Reminder reminder = document.toObject(Reminder.class);
                                 user_.addBasicReminder(reminder);
                             }
+                            MainActivity.basicRecyclerView.getAdapter().notifyDataSetChanged();
                         }
                     }
                 });
+    }
+
+    public void retrieveGeoReminder(){
+
+        db.collection("monthly").document(user_.getUid_()).collection("Reminders")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            for(QueryDocumentSnapshot document : task.getResult()){
+                                GeoReminder reminder = document.toObject(GeoReminder.class);
+                                user_.addGeoReminder(reminder);
+                            }
+                        }
+                    }
+                });
+    }
+
+    public User getUser_() {
+        return user_;
+    }
+
+    public void retrieveAllReminders(){
+        retrieveBasicReminder();
+        retrieveDailyReminder();
+        retrieveGeoReminder();
+        retrieveMonthlyReminders();
+        retrieveWeeklyReminder();
     }
 }

@@ -13,4 +13,16 @@
     <string name="sign_in">Sign In</string>
     <string name="georeminder">GeoReminder</string>
     <string name="sign_in_with_google">Sign In with Google</string>
+    <string name="no_reminder">No reminder</string>
+    <string name="add_reminder">Add reminder</string>
+    <string name="add_routine">Add routine</string>
+    <string name="add_geolocation_reminder">Add Geolocation reminder</string>
+    <string name="add_deadline_button">add_deadline_button</string>
+    <string name="title">Title</string>
+    <string name="date">Date</string>
+    <string name="text">Text</string>
+    <string name="time">Time</string>
+    <string name="cencel_button">cencel button</string>
+    <string name="validate_button">Validate button</string>
+    <string name="address">Address</string>
 </resources>

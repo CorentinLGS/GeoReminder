@@ -17,6 +17,13 @@
         </activity>
         <activity android:name="georeminder.MainActivity">
         </activity>
+        <activity android:name="georeminder.AddNoteActivity"></activity>
+        <activity android:name="georeminder.AddGeoActivity" />
+        <activity android:name="georeminder.AddRoutineActivity" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDfypgml757c_nk7o2fjgd05pfJhCZAnFA"/>
+
     </application>
 
 </manifest>
