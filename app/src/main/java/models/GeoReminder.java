@@ -7,8 +7,8 @@ public class GeoReminder extends Reminder{
     private String gps;
 
     public GeoReminder(){}
-    public GeoReminder(String title, String content, Date date, Date deadline, String gps){
-        super(title, content, date, deadline);
+    public GeoReminder(String title, String content, Date date, String gps){
+        super(title, content, date, null);
         this.gps = gps;
     }
 

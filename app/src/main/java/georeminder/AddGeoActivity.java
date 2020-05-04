@@ -1,10 +1,6 @@
 package georeminder;
 
-import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.view.Display;
@@ -15,35 +11,25 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 
 import com.example.georeminder.R;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.OnMapReadyCallback;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import models.GeoReminder;
-import models.Reminder;
+
 
 public class AddGeoActivity extends Activity{
 
     private EditText title;
     private EditText text;
-    private EditText adress;
-    private Calendar calendar;
+    public static EditText adress;
     private ImageButton validate;
     private ImageButton cancel;
     private LinearLayout vcView;
 
-    private FragmentManager fm;
-    private FragmentTransaction fragmentTransaction;
+    private GoogleMapsFragment mapsFragment;
 
 
     @Override
@@ -58,11 +44,9 @@ public class AddGeoActivity extends Activity{
         cancel = findViewById(R.id.cancel_button_geo);
         vcView = findViewById(R.id.vc_linear_geo);
 
-        fm = this.getSupportFragmentManager();
-        fragmentTransaction = fm.beginTransaction();
-
 
         initViews();
+        initButtons();
     }
 
     private void initViews(){
@@ -73,18 +57,24 @@ public class AddGeoActivity extends Activity{
         int height = size.y;
 
         title.setHeight(height*1/14);
-        text.setHeight(height*10/14);
-        adress.setHeight(height*1/14);
+        text.setHeight(height*9/14);
+        adress.setHeight(height*2/14);
         vcView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height*1/14));
         validate.setLayoutParams(new LinearLayout.LayoutParams(width*1/2, height*1/14));
         cancel.setLayoutParams(new LinearLayout.LayoutParams(width*1/2, height*1/14));
 
+       mapsFragment = GoogleMapsFragment.newInstance();
+
         adress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GoogleMapsFragment fragment = new GoogleMapsFragment();
-                fragmentTransaction.add(com.google.android.gms.maps.MapFragment, fragment);
-                fragmentTransaction.commit();
+
+                FragmentManager fmanager = getFragmentManager();
+                FragmentTransaction transaction = fmanager.beginTransaction();
+                //transaction.setCustomAnimations(R.anim.slide_in_up, R.anim.slide_out_down);
+                transaction.replace(R.id.geo_constaint, mapsFragment, String.valueOf(R.layout.fragment_google_maps));
+                transaction.addToBackStack(String.valueOf(R.layout.fragment_google_maps));
+                transaction.commit();
 
             }
         });
@@ -95,6 +85,10 @@ public class AddGeoActivity extends Activity{
         validate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Calendar c = Calendar.getInstance();
+                GeoReminder reminder = new GeoReminder(title.getText().toString(), text.getText().toString(), c.getTime(), adress.getText().toString());
+                MainActivity.dbmanager.addDataToBase(reminder);
+                MainActivity.dbmanager.retrieveGeoReminder();
                 finish();
             }
         });
