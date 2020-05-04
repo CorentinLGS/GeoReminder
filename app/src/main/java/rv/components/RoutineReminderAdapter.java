@@ -11,12 +11,16 @@ import com.example.georeminder.R;
 
 import java.util.Vector;
 
+import models.DailyReminder;
+import models.GeoReminder;
+import models.MonthlyReminder;
 import models.Reminder;
 
-public class BasicReminderAdapter extends RecyclerView.Adapter<BasicReminderViewHolder>{
+public class RoutineReminderAdapter extends RecyclerView.Adapter<BasicReminderViewHolder>{
+
     private Vector<Reminder> reminders_;
 
-    public BasicReminderAdapter( Vector<Reminder> reminders){
+    public RoutineReminderAdapter( Vector<Reminder> reminders){
         reminders_ = reminders;
     }
 
@@ -35,6 +39,19 @@ public class BasicReminderAdapter extends RecyclerView.Adapter<BasicReminderView
             holder.title_vh.setText(reminder.getTitle());
             holder.date_vh.setText(reminder.getDate().toString());
             holder.text_vh.setText(reminder.getContent());
+            switch (reminder.getClass().getName()){
+                case "models.MonthlyReminder":
+                    holder.spec_vh.setText("Monthly reminder");
+                    break;
+                case "models.WeeklyReminder":
+                    holder.spec_vh.setText("Weekly reminder");
+                    break;
+                case "models.DailyReminder":
+                    holder.spec_vh.setText("Daily reminder");
+                    break;
+                default:
+                    break;
+            }
         }
     }
 

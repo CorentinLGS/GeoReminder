@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">GeoReminder</string>
-    <string name="reminders">Reminders</string>
     <string name="title_activity_login">Sign in</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
@@ -25,4 +24,10 @@
     <string name="cencel_button">cencel button</string>
     <string name="validate_button">Validate button</string>
     <string name="address">Address</string>
+    <string name="reminders">Reminders</string>
+    <string name="georeminders">GeoReminders</string>
+    <string name="routines">Routines</string>
+    <string name="logout">SignOut</string>
+    <string name="navigation_drawer_open">Open Menu</string>
+    <string name="navigation_drawer_close">Close Menu</string>
 </resources>

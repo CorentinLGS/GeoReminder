@@ -11,12 +11,14 @@ import com.example.georeminder.R;
 
 import java.util.Vector;
 
+import models.GeoReminder;
 import models.Reminder;
 
-public class BasicReminderAdapter extends RecyclerView.Adapter<BasicReminderViewHolder>{
-    private Vector<Reminder> reminders_;
+public class GeoReminderAdapter extends RecyclerView.Adapter<BasicReminderViewHolder>{
 
-    public BasicReminderAdapter( Vector<Reminder> reminders){
+    private Vector<GeoReminder> reminders_;
+
+    public GeoReminderAdapter( Vector<GeoReminder> reminders){
         reminders_ = reminders;
     }
 
@@ -31,10 +33,11 @@ public class BasicReminderAdapter extends RecyclerView.Adapter<BasicReminderView
     @Override
     public void onBindViewHolder(@NonNull BasicReminderViewHolder holder, int position) {
         if(reminders_ != null) {
-            Reminder reminder = reminders_.get(position);
+            GeoReminder reminder = reminders_.get(position);
             holder.title_vh.setText(reminder.getTitle());
             holder.date_vh.setText(reminder.getDate().toString());
             holder.text_vh.setText(reminder.getContent());
+            holder.spec_vh.setText(reminder.getGps());
         }
     }
 

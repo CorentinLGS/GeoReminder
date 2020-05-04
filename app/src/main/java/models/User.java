@@ -88,6 +88,14 @@ public class User {
         return uid_;
     }
 
+    public Vector<Reminder> getRoutines(){
+        Vector<Reminder> routines= new Vector<Reminder>();
+        routines.addAll(getDaily_());
+        routines.addAll(getWeekly_());
+        routines.addAll(getMonthly_());
+        return routines;
+    }
+
 
 
 }

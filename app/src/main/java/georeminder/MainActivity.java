@@ -1,28 +1,28 @@
 package georeminder;
 
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.view.MotionEvent;
-import android.view.View;
-import android.widget.LinearLayout;
+import android.view.Display;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.example.georeminder.R;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import models.DataManager;
 import models.User;
-import rv.components.BasicReminderAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,14 +30,12 @@ public class MainActivity extends AppCompatActivity {
     private User user ;
     public static DataManager dbmanager;
 
-    public static RecyclerView basicRecyclerView;
-    private BasicReminderAdapter basicAdapter;
-    private FloatingActionButton fab_addreminder;
-    private FloatingActionButton fab_breminder;
-    private FloatingActionButton fab_routine;
-    private FloatingActionButton fab_geo;
-    private LinearLayout fab_linear;
-    private boolean clicked = false;
+    private NavigationView navigationView;
+    private Toolbar toolbar;
+    private DrawerLayout drawerLayout;
+    private Menu menu;
+
+    private RemindersFragment remindersFragment;
 
 
     @Override
@@ -47,31 +45,15 @@ public class MainActivity extends AppCompatActivity {
 
         fUser = FirebaseAuth.getInstance().getCurrentUser();
         user = new User(fUser.getUid(), fUser.getDisplayName());
-        fab_breminder= findViewById(R.id.basic_reminder_button);
-        fab_routine= findViewById(R.id.routine_button);
-        fab_geo= findViewById(R.id.geo_reminder_button);
-        fab_linear = findViewById(R.id.linear_fab);
-        fab_addreminder = findViewById(R.id.addreminder_floatingbutton);
 
-        fab_addreminder.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                if(!clicked) {
-                    fab_linear.setVisibility(View.VISIBLE);
-                    clicked = true;
-                }
-                else {
-                    fab_linear.setVisibility(View.GONE);
-                    clicked = false;
-                }
-            }
-        });
+        navigationView = findViewById(R.id.main_navigation_view);
 
         dbmanager = new DataManager(user);
         dbmanager.retrieveAllReminders();
 
-        initRecycler();
-        initFABs();
+        initMenuButtons();
+        configureToolBar();
+        configureDrawerLayout();
 
         if(ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION)
@@ -83,47 +65,94 @@ public class MainActivity extends AppCompatActivity {
                     1);
         }
 
+        showRemindersFragment();
     }
 
-    private void initRecycler(){
-        basicRecyclerView = findViewById(R.id.basic_recycler);
-        basicAdapter = new BasicReminderAdapter(user.getBasic_());
-        LinearLayoutManager layout = new LinearLayoutManager(this);
-        basicRecyclerView.setLayoutManager(layout);
-        basicRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        basicRecyclerView.addItemDecoration(new DividerItemDecoration(basicRecyclerView.getContext(), DividerItemDecoration.VERTICAL));
-        basicRecyclerView.setAdapter(basicAdapter);
+    private void configureToolBar(){
+        toolbar = findViewById(R.id.main_toolbar);
+        setSupportActionBar(toolbar);
     }
 
-    private void initFABs(){
-        fab_breminder.setOnClickListener(new View.OnClickListener() {
+    private void configureDrawerLayout(){
+        drawerLayout = findViewById(R.id.main_drawer);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+    }
+
+    private void showRemindersFragment(){
+        if (remindersFragment == null) remindersFragment = RemindersFragment.newInstance(0);
+        else{
+            remindersFragment = null;
+            remindersFragment = RemindersFragment.newInstance(0);
+        }
+        startTransactionFragment(remindersFragment);
+    }
+
+    private void showGeoFragment(){
+        if (remindersFragment == null) remindersFragment = RemindersFragment.newInstance(1);
+        else{
+            remindersFragment = null;
+            remindersFragment = RemindersFragment.newInstance(1);
+        }
+        startTransactionFragment(remindersFragment);
+    }
+
+    private void showRoutineFragment(){
+        if (remindersFragment == null) remindersFragment = RemindersFragment.newInstance(2);
+        else{
+            remindersFragment = null;
+            remindersFragment = RemindersFragment.newInstance(2);
+        }
+        startTransactionFragment(remindersFragment);
+    }
+
+    private void startTransactionFragment(RemindersFragment fragment) {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.main_framelayout, fragment).commit();
+    }
+
+    private void initMenuButtons(){
+        menu = navigationView.getMenu();
+        menu.findItem(R.id.reminders_menu_button).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), AddNoteActivity.class);
-                fab_linear.setVisibility(View.GONE);
-                clicked = false;
-                startActivity(intent);
+            public boolean onMenuItemClick(MenuItem item) {
+                showRemindersFragment();
+                drawerLayout.closeDrawer(GravityCompat.START);
+                return false;
             }
         });
 
-        fab_routine.setOnClickListener(new View.OnClickListener() {
+        menu.findItem(R.id.geo_menu_button).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), AddRoutineActivity.class);
-                fab_linear.setVisibility(View.GONE);
-                clicked = false;
-                startActivity(intent);
+            public boolean onMenuItemClick(MenuItem item) {
+                showGeoFragment();
+                drawerLayout.closeDrawer(GravityCompat.START);
+                return false;
             }
         });
 
-        fab_geo.setOnClickListener(new View.OnClickListener() {
+        menu.findItem(R.id.routines_menu_button).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), AddGeoActivity.class);
-                fab_linear.setVisibility(View.GONE);
-                clicked = false;
-                startActivity(intent);
+            public boolean onMenuItemClick(MenuItem item) {
+                showRoutineFragment();
+                drawerLayout.closeDrawer(GravityCompat.START);
+                return false;
             }
         });
+
+        menu.findItem(R.id.logout_button).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                mAuth.signOut();
+                Intent intent = new Intent(getBaseContext(), LoginActivity.class);
+                startActivity(intent);
+                finish();
+                drawerLayout.closeDrawer(GravityCompat.START);
+                return false;
+            }
+        });
+
     }
 }

@@ -12,6 +12,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import georeminder.MainActivity;
+import georeminder.RemindersFragment;
 
 public class DataManager {
 
@@ -94,6 +95,7 @@ public class DataManager {
                                 user_.addMonthlyReminder(reminder);
                             }
                         }
+                        RemindersFragment.basicRecyclerView.getAdapter().notifyDataSetChanged();
                     }
                 });
     }
@@ -110,6 +112,7 @@ public class DataManager {
                                 WeeklyReminder reminder = document.toObject(WeeklyReminder.class);
                                 user_.addWeeklyReminder(reminder);
                             }
+                            RemindersFragment.basicRecyclerView.getAdapter().notifyDataSetChanged();
                         }
                     }
                 });
@@ -127,6 +130,7 @@ public class DataManager {
                                 DailyReminder reminder = document.toObject(DailyReminder.class);
                                 user_.addDailyReminder(reminder);
                             }
+                            RemindersFragment.basicRecyclerView.getAdapter().notifyDataSetChanged();
                         }
                     }
                 });
@@ -144,7 +148,7 @@ public class DataManager {
                                 Reminder reminder = document.toObject(Reminder.class);
                                 user_.addBasicReminder(reminder);
                             }
-                            MainActivity.basicRecyclerView.getAdapter().notifyDataSetChanged();
+                            RemindersFragment.basicRecyclerView.getAdapter().notifyDataSetChanged();
                         }
                     }
                 });
@@ -152,7 +156,7 @@ public class DataManager {
 
     public void retrieveGeoReminder(){
 
-        db.collection("monthly").document(user_.getUid_()).collection("Reminders")
+        db.collection("geo").document(user_.getUid_()).collection("Reminders")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -162,6 +166,7 @@ public class DataManager {
                                 GeoReminder reminder = document.toObject(GeoReminder.class);
                                 user_.addGeoReminder(reminder);
                             }
+                            RemindersFragment.basicRecyclerView.getAdapter().notifyDataSetChanged();
                         }
                     }
                 });

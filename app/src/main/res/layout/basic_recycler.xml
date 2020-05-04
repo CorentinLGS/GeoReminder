@@ -4,39 +4,47 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/basic_recycler"
     android:layout_width="match_parent"
-    android:layout_height="50dp"
+    android:layout_height="wrap_content"
     android:background="#121212">
 
     <TextView
         android:id="@+id/title_vh"
-        android:layout_width="150dp"
+        android:layout_width="match_parent"
         android:layout_height="23dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
         android:textColor="@android:color/tertiary_text_light"
-        app:layout_constraintBottom_toTopOf="@+id/text_vh"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/date_vh" />
 
     <TextView
         android:id="@+id/date_vh"
-        android:layout_width="107dp"
+        android:layout_width="wrap_content"
         android:layout_height="27dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:textColor="@android:color/tertiary_text_light"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/text_vh"
-        android:layout_width="150dp"
+        android:layout_width="match_parent"
         android:layout_height="27dp"
         android:ems="10"
         android:inputType="date"
         android:textColor="@android:color/tertiary_text_light"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_vh" />
+
+    <TextView
+        android:id="@+id/spec"
+        android:layout_width="wrap_content"
+        android:layout_height="27dp"
+        android:inputType="textPostalAddress"
+        android:textColor="@android:color/tertiary_text_light"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
