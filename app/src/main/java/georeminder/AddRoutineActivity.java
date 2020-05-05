@@ -18,6 +18,7 @@ import com.example.georeminder.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -35,6 +36,8 @@ public class AddRoutineActivity extends Activity {
     private LinearLayout dtView;
     private LinearLayout vcView;
     private CheckBox dailyCB, weeklyCB, monthlyCB;
+    private String uri;
+    private String type;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,6 +57,28 @@ public class AddRoutineActivity extends Activity {
         initViews();
         initCheckBoxes();
         initButtons();
+        if(getIntent().getExtras()!=null) {
+            if (!getIntent().getExtras().isEmpty()) {
+                Bundle data = getIntent().getExtras();
+                title.setText(data.getString("title"));
+                text.setText(data.getString("text"));
+                uri = data.getString("uri");
+                type = data.getString("type");
+                System.out.println(type);
+                switch (type) {
+                    case "Daily":
+                        dailyCB.setChecked(true);
+                        break;
+                    case "Weekly":
+                        weeklyCB.setChecked(true);
+                        break;
+                    case "Monthly":
+                        monthlyCB.setChecked(true);
+                        break;
+
+                }
+            }
+        }
     }
 
     private void initViews() {
@@ -122,7 +147,8 @@ public class AddRoutineActivity extends Activity {
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-                    DailyReminder reminder = new DailyReminder(title.getText().toString(), text.getText().toString(), currentTime, deadline);
+                    DailyReminder reminder = new DailyReminder(title.getText().toString(), text.getText().toString(), currentTime.getTime(), deadline.getTime());
+                    reminder.setUri(uri);
                     MainActivity.dbmanager.addDataToBase(reminder);
                     MainActivity.dbmanager.retrieveDailyReminder();
                 }
@@ -137,7 +163,8 @@ public class AddRoutineActivity extends Activity {
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-                    WeeklyReminder reminder = new WeeklyReminder(title.getText().toString(), text.getText().toString(),currentTime, deadline);
+                    WeeklyReminder reminder = new WeeklyReminder(title.getText().toString(), text.getText().toString(),currentTime.getTime(), deadline.getTime());
+                    reminder.setUri(uri);
                     MainActivity.dbmanager.addDataToBase(reminder);
                     MainActivity.dbmanager.retrieveWeeklyReminder();
                 }
@@ -153,7 +180,8 @@ public class AddRoutineActivity extends Activity {
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-                    MonthlyReminder reminder = new MonthlyReminder(title.getText().toString(), text.getText().toString(), currentTime, deadline);
+                    MonthlyReminder reminder = new MonthlyReminder(title.getText().toString(), text.getText().toString(), currentTime.getTime(), deadline.getTime());
+                    reminder.setUri(uri);
                     MainActivity.dbmanager.addDataToBase(reminder);
                     MainActivity.dbmanager.retrieveMonthlyReminders();
                 }

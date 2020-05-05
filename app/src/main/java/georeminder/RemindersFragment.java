@@ -63,7 +63,6 @@ public class RemindersFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)          {
         v = inflater.inflate(R.layout.reminders_fragment, container, false);
         initRecycler();
-
         return v;
     }
 
@@ -71,8 +70,11 @@ public class RemindersFragment extends Fragment {
         textView = v.findViewById(R.id.recycler_text);
         basicRecyclerView = v.findViewById(R.id.basic_recycler_fragment);
         basicAdapter = new BasicReminderAdapter(MainActivity.dbmanager.getUser_().getBasic_());
+        basicAdapter.addContext(getActivity());
         geoAdapder = new GeoReminderAdapter(MainActivity.dbmanager.getUser_().getGeo_());
+        geoAdapder.addContext(getActivity());
         routinesAdapter = new RoutineReminderAdapter(MainActivity.dbmanager.getUser_().getRoutines());
+        routinesAdapter.addContext(getActivity());
         LinearLayoutManager layout = new LinearLayoutManager(getActivity());
         basicRecyclerView.setLayoutManager(layout);
         basicRecyclerView.setItemAnimator(new DefaultItemAnimator());

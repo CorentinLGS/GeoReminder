@@ -5,7 +5,8 @@
     android:id="@+id/basic_recycler"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#121212">
+    android:background="#121212"
+    android:clickable="true">
 
     <TextView
         android:id="@+id/title_vh"

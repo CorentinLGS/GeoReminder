@@ -15,6 +15,8 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 
 import com.example.georeminder.R;
+
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import models.GeoReminder;
@@ -28,6 +30,7 @@ public class AddGeoActivity extends Activity{
     private ImageButton validate;
     private ImageButton cancel;
     private LinearLayout vcView;
+    private String uri = null;
 
     private GoogleMapsFragment mapsFragment;
 
@@ -43,6 +46,13 @@ public class AddGeoActivity extends Activity{
         validate = findViewById(R.id.validate_button_geo);
         cancel = findViewById(R.id.cancel_button_geo);
         vcView = findViewById(R.id.vc_linear_geo);
+        if(getIntent().getExtras()!=null) {
+            Bundle data = getIntent().getExtras();
+            title.setText(data.getString("title"));
+            text.setText(data.getString("text"));
+            adress.setText(data.getString("gps"));
+            uri = data.getString("uri");
+        }
 
 
         initViews();
@@ -86,7 +96,8 @@ public class AddGeoActivity extends Activity{
             @Override
             public void onClick(View v) {
                 Calendar c = Calendar.getInstance();
-                GeoReminder reminder = new GeoReminder(title.getText().toString(), text.getText().toString(), c.getTime(), adress.getText().toString());
+                GeoReminder reminder = new GeoReminder(title.getText().toString(), text.getText().toString(), c.getTime().getTime(), adress.getText().toString());
+                reminder.setUri(uri);
                 MainActivity.dbmanager.addDataToBase(reminder);
                 MainActivity.dbmanager.retrieveGeoReminder();
                 finish();

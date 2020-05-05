@@ -96,6 +96,26 @@ public class User {
         return routines;
     }
 
+    public void clearBasic(){
+        basic_.clear();
+    }
+
+    public void clearGeo(){
+        geo_.clear();
+    }
+
+    public void clearDaily(){
+        daily_.clear();
+    }
+
+    public void clearWeekly(){
+        weekly_.clear();
+    }
+
+    public void clearMonthly(){
+        monthly_.clear();
+    }
+
 
 
 }

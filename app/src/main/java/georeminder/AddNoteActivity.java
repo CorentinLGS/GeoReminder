@@ -20,9 +20,12 @@ import androidx.annotation.Nullable;
 import com.example.georeminder.R;
 
 import java.sql.Time;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -43,6 +46,7 @@ public class AddNoteActivity extends Activity {
     private LinearLayout dtView;
     private DatePickerDialog.OnDateSetListener date;
     private TimePickerDialog.OnTimeSetListener time;
+    private String uri;
 
     @SuppressLint("WrongViewCast")
     @Override
@@ -63,6 +67,21 @@ public class AddNoteActivity extends Activity {
         initDate();
         initTime();
         initButtons();
+        if(getIntent().getExtras()!=null) {
+            Bundle data = getIntent().getExtras();
+            title.setText(data.getString("title"));
+            text.setText(data.getString("text"));
+            uri = data.getString("uri");
+
+            DateFormat f = new SimpleDateFormat("dd/MM/yy hh:mm");
+            Date d = new Date(data.getLong("deadline"));
+            DateFormat date = new SimpleDateFormat("dd/MM/yy");
+            DateFormat time = new SimpleDateFormat("hh:mm");
+            if (d != null) {
+                dateView.setText(date.format(d));
+                timeview.setText(time.format(d));
+            }
+        }
 
     }
 
@@ -155,8 +174,8 @@ public class AddNoteActivity extends Activity {
                     e.printStackTrace();
                 }
                 Calendar c = Calendar.getInstance();
-                Reminder reminder = new Reminder(title.getText().toString(), text.getText().toString(), c.getTime(), date);
-                System.out.println(calendar.getTimeZone().toString());
+                Reminder reminder = new Reminder(title.getText().toString(), text.getText().toString(), c.getTime().getTime(), date.getTime());
+                reminder.setUri(uri);
                 MainActivity.dbmanager.addDataToBase(reminder);
                 MainActivity.dbmanager.retrieveBasicReminder();
                 finish();

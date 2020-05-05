@@ -1,5 +1,6 @@
 package rv.components;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,14 +10,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.georeminder.R;
 
+import java.util.Date;
 import java.util.Vector;
 
+import georeminder.MainActivity;
 import models.GeoReminder;
 import models.Reminder;
 
 public class GeoReminderAdapter extends RecyclerView.Adapter<BasicReminderViewHolder>{
 
     private Vector<GeoReminder> reminders_;
+    private Context context;
 
     public GeoReminderAdapter( Vector<GeoReminder> reminders){
         reminders_ = reminders;
@@ -33,11 +37,19 @@ public class GeoReminderAdapter extends RecyclerView.Adapter<BasicReminderViewHo
     @Override
     public void onBindViewHolder(@NonNull BasicReminderViewHolder holder, int position) {
         if(reminders_ != null) {
-            GeoReminder reminder = reminders_.get(position);
+            final GeoReminder reminder = reminders_.get(position);
             holder.title_vh.setText(reminder.getTitle());
-            holder.date_vh.setText(reminder.getDate().toString());
+            Date date = new Date(reminder.getDate());
+            holder.date_vh.setText(date.toString());
             holder.text_vh.setText(reminder.getContent());
             holder.spec_vh.setText(reminder.getGps());
+            holder.text_vh.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MainActivity context1 = (MainActivity) context;
+                    context1.showDisplayFragment(reminder);
+                }
+            });
         }
     }
 
@@ -46,5 +58,9 @@ public class GeoReminderAdapter extends RecyclerView.Adapter<BasicReminderViewHo
         if(reminders_!=null)
             return reminders_.size();
         else return 0;
+    }
+
+    public void addContext(Context context){
+        this.context = context;
     }
 }
