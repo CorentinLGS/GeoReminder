@@ -54,7 +54,6 @@ public class AddRoutineActivity extends Activity {
         weeklyCB = findViewById(R.id.weekly_routine_check);
         monthlyCB = findViewById(R.id.monthly_routine_check);
 
-        initViews();
         initCheckBoxes();
         initButtons();
         if(getIntent().getExtras()!=null) {
@@ -79,21 +78,6 @@ public class AddRoutineActivity extends Activity {
                 }
             }
         }
-    }
-
-    private void initViews() {
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int width = size.x;
-        int height = size.y;
-
-        title.setHeight(height * 1 / 14);
-        text.setHeight(height * 10 / 14);
-        vcView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height * 1 / 14));
-        dtView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height * 1 / 14));
-        validate.setLayoutParams(new LinearLayout.LayoutParams(width * 1 / 2, height * 1 / 14));
-        cancel.setLayoutParams(new LinearLayout.LayoutParams(width * 1 / 2, height * 1 / 14));
     }
 
     private void initCheckBoxes(){

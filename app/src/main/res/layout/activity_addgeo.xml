@@ -5,7 +5,7 @@
     android:id="@+id/geo_constaint"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F2121212">
+    android:background="#73121212">
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -21,6 +21,7 @@
             android:id="@+id/geo_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:background="#121212"
             android:ems="10"
             android:hint="@string/title"
@@ -39,6 +40,7 @@
             android:id="@+id/geo_adress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:background="#121212"
             android:clickable="true"
             android:ems="10"
@@ -60,6 +62,7 @@
             android:id="@+id/geo_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="12"
             android:background="#121212"
             android:ems="10"
             android:gravity="start"
@@ -83,12 +86,14 @@
             android:id="@+id/vc_linear_geo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:background="#121212">
 
             <ImageButton
                 android:id="@+id/validate_button_geo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:background="#121212"
                 android:clickable="true"
                 android:contentDescription="@string/validate_button"
@@ -98,8 +103,9 @@
 
             <ImageButton
                 android:id="@+id/cancel_button_geo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:background="#121212"
                 android:clickable="true"
                 android:contentDescription="@string/cencel_button"

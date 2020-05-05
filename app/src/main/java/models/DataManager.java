@@ -63,6 +63,44 @@ public class DataManager {
         }
     }
 
+    public boolean removeFromBase(Reminder reminder){
+        switch (reminder.getClass().getName())
+        {
+            case "models.MonthlyReminder":
+                return removeMonthlyReminder(reminder);
+            case "models.WeeklyReminder":
+                return removeWeeklyReminder(reminder);
+            case "models.DailyReminder":
+                return removeDailyReminder(reminder);
+            case "models.Reminder":
+                return removeBasicReminder(reminder);
+            case "models.GeoReminder":
+                return removeGeoReminder(reminder);
+            default:
+                return false;
+
+        }
+    }
+
+    public boolean updateInBase(Reminder reminder){
+        switch (reminder.getClass().getName())
+        {
+            case "models.MonthlyReminder":
+                return updateMonthlyReminder(reminder);
+            case "models.WeeklyReminder":
+                return updateWeeklyReminder(reminder);
+            case "models.DailyReminder":
+                return updateDailyReminder(reminder);
+            case "models.Reminder":
+                return updateBasicReminder(reminder);
+            case "models.GeoReminder":
+                return updateGeoReminder(reminder);
+            default:
+                return false;
+
+        }
+    }
+
     private boolean addMonthlyReminder(Reminder reminder){
         if(reminder.getUri()!=null){
             return db.collection("monthly")
@@ -136,6 +174,78 @@ public class DataManager {
                 .document(user_.getUid_())
                 .collection("Reminders")
                 .add(reminder).isSuccessful();
+    }
+
+    private boolean removeMonthlyReminder(Reminder reminder){
+            return db.collection("monthly")
+                    .document(user_.getUid_())
+                    .collection("Reminders")
+                    .document(reminder.getUri()).delete().isSuccessful();
+    }
+
+    private boolean removeWeeklyReminder(Reminder reminder){
+            return db.collection("weekly")
+                    .document(user_.getUid_())
+                    .collection("Reminders")
+                    .document(reminder.getUri()).delete().isSuccessful();
+    }
+
+    private boolean removeDailyReminder(Reminder reminder){
+            return db.collection("daily")
+                    .document(user_.getUid_())
+                    .collection("Reminders")
+                    .document(reminder.getUri()).delete().isSuccessful();
+    }
+
+    private boolean removeBasicReminder(Reminder reminder){
+            return db.collection("basic")
+                    .document(user_.getUid_())
+                    .collection("Reminders")
+                    .document(reminder.getUri()).delete().isSuccessful();
+
+    }
+
+    private boolean removeGeoReminder(Reminder reminder){
+            return db.collection("geo")
+                    .document(user_.getUid_())
+                    .collection("Reminders")
+                    .document(reminder.getUri()).delete().isSuccessful();
+    }
+
+    private boolean updateMonthlyReminder(Reminder reminder){
+        return db.collection("monthly")
+                .document(user_.getUid_())
+                .collection("Reminders")
+                .document(reminder.getUri()).set(reminder).isSuccessful();
+    }
+
+    private boolean updateWeeklyReminder(Reminder reminder){
+        return db.collection("weekly")
+                .document(user_.getUid_())
+                .collection("Reminders")
+                .document(reminder.getUri()).set(reminder).isSuccessful();
+    }
+
+    private boolean updateDailyReminder(Reminder reminder){
+        return db.collection("daily")
+                .document(user_.getUid_())
+                .collection("Reminders")
+                .document(reminder.getUri()).set(reminder).isSuccessful();
+    }
+
+    private boolean updateBasicReminder(Reminder reminder){
+        return db.collection("basic")
+                .document(user_.getUid_())
+                .collection("Reminders")
+                .document(reminder.getUri()).set(reminder).isSuccessful();
+
+    }
+
+    private boolean updateGeoReminder(Reminder reminder){
+        return db.collection("geo")
+                .document(user_.getUid_())
+                .collection("Reminders")
+                .document(reminder.getUri()).set(reminder).isSuccessful();
     }
 
     public void retrieveMonthlyReminders(){
@@ -276,8 +386,6 @@ public class DataManager {
     private void startRemindersService(Reminder reminder){
         remindersServiceIntent = new Intent(context, RemindersService.class);
         remindersServiceIntent.putExtras(reminder.takeData());
-        if(!isServiceRunning(RemindersService.class)){
-            context.startService(remindersServiceIntent);
-        }
+        context.startService(remindersServiceIntent);
     }
 }

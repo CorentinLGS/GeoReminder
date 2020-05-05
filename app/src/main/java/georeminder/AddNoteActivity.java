@@ -63,7 +63,7 @@ public class AddNoteActivity extends Activity {
         cancel = findViewById(R.id.cancel_button);
         dtView = findViewById(R.id.dt_constraint);
         vcView = findViewById(R.id.vc_constraint);
-        initViews();
+
         initDate();
         initTime();
         initButtons();
@@ -142,23 +142,6 @@ public class AddNoteActivity extends Activity {
                         , calendar.get(Calendar.MINUTE), true).show();
             }
         });
-    }
-
-    private void initViews(){
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int width = size.x;
-        int height = size.y;
-
-        title.setHeight(height*1/14);
-        text.setHeight(height*10/14);
-        dateView.setWidth(width*1/2);
-        timeview.setWidth(width*1/2);
-        vcView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height*1/14));
-        dtView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height*1/14));
-        validate.setLayoutParams(new LinearLayout.LayoutParams(width*1/2, height*1/14));
-        cancel.setLayoutParams(new LinearLayout.LayoutParams(width*1/2, height*1/14));
     }
 
     private void initButtons(){

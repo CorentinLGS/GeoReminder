@@ -39,7 +39,8 @@ public class Alarm extends BroadcastReceiver {
         String channelName = "Reminders notifications";
         NotificationChannel chan = new NotificationChannel(NOTIFICATION_CHANNEL_ID, channelName, NotificationManager.IMPORTANCE_DEFAULT);
         chan.setLightColor(Color.BLUE);
-        chan.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
+        chan.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
+
         NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         assert manager != null;
         manager.createNotificationChannel(chan);
@@ -54,8 +55,8 @@ public class Alarm extends BroadcastReceiver {
                 .build();
 
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(context);
-
         notificationManagerCompat.notify(reminder.getUri().hashCode(), notificationBuilder.build());
+
 
     }
 }

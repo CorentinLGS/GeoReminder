@@ -8,12 +8,12 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.Manifest;
-import android.app.ActivityManager;
-import android.content.Context;
+import android.annotation.SuppressLint;
+
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.util.Log;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,27 +28,12 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.net.Inet4Address;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Vector;
-
-import models.DailyReminder;
 import models.DataManager;
-import models.GeoReminder;
-import models.MonthlyReminder;
+
 import models.Reminder;
 import models.User;
-import models.WeeklyReminder;
-import rv.components.RoutineReminderAdapter;
-import services.GeoService;
-import services.RemindersService;
-import services.RoutineService;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -61,10 +46,6 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
     private Menu menu;
-    private FloatingActionButton fab;
-    private int state;
-
-    public Reminder currentReminder = null;
 
     private RemindersFragment remindersFragment;
     private static DisplayFragment displayFragment;
@@ -88,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
         initMenuButtons();
         configureToolBar();
         configureDrawerLayout();
-        initFab();
         initMenu();
 
         if (ActivityCompat.checkSelfPermission(this,
@@ -122,7 +102,6 @@ public class MainActivity extends AppCompatActivity {
             remindersFragment = null;
             remindersFragment = RemindersFragment.newInstance(0);
         }
-        state = 0;
         startTransactionFragment(remindersFragment);
     }
 
@@ -132,7 +111,6 @@ public class MainActivity extends AppCompatActivity {
             remindersFragment = null;
             remindersFragment = RemindersFragment.newInstance(1);
         }
-        state = 1;
         startTransactionFragment(remindersFragment);
     }
 
@@ -142,10 +120,10 @@ public class MainActivity extends AppCompatActivity {
             remindersFragment = null;
             remindersFragment = RemindersFragment.newInstance(2);
         }
-        state = 2;
         startTransactionFragment(remindersFragment);
     }
 
+    @SuppressLint("RestrictedApi")
     private void startTransactionFragment(RemindersFragment fragment) {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.main_framelayout, fragment).commit();
@@ -195,37 +173,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void initFab() {
-        fab = findViewById(R.id.main_fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = null;
-                switch (state) {
-                    case 0:
-                        intent = new Intent(getBaseContext(), AddNoteActivity.class);
-                        break;
-                    case 1:
-                        intent = new Intent(getBaseContext(), AddGeoActivity.class);
-                        break;
-                    case 2:
-                        intent = new Intent(getBaseContext(), AddRoutineActivity.class);
-                        break;
-                    default:
-                        break;
-                }
-                if (intent != null) {
-                    if (currentReminder != null) {
-                        Bundle bundle = currentReminder.takeData();
-                        intent.putExtras(bundle);
-                    }
-                    startActivity(intent);
-                    currentReminder = null;
-                }
-            }
-        });
-    }
-
     private void initMenu() {
         View header = navigationView.getHeaderView(0);
         TextView email = header.findViewById(R.id.header_email);
@@ -238,10 +185,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void StartTransactionDisplayFragment(DisplayFragment fragment) {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.main_framelayout, fragment).commit();
+                .replace(R.id.main_framelayout, fragment).addToBackStack(null).commit();
     }
 
 
+    @SuppressLint("RestrictedApi")
     public void showDisplayFragment(Reminder reminder) {
         if (displayFragment == null) displayFragment = DisplayFragment.newInstance(reminder);
         else {
@@ -249,6 +197,5 @@ public class MainActivity extends AppCompatActivity {
             displayFragment = DisplayFragment.newInstance(reminder);
         }
         StartTransactionDisplayFragment(displayFragment);
-        currentReminder = reminder;
     }
 }

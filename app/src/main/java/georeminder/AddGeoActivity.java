@@ -60,18 +60,6 @@ public class AddGeoActivity extends Activity{
     }
 
     private void initViews(){
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int width = size.x;
-        int height = size.y;
-
-        title.setHeight(height*1/14);
-        text.setHeight(height*9/14);
-        adress.setHeight(height*2/14);
-        vcView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height*1/14));
-        validate.setLayoutParams(new LinearLayout.LayoutParams(width*1/2, height*1/14));
-        cancel.setLayoutParams(new LinearLayout.LayoutParams(width*1/2, height*1/14));
 
        mapsFragment = GoogleMapsFragment.newInstance();
 

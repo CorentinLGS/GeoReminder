@@ -4,48 +4,66 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/basic_recycler"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="70dp"
     android:background="#121212"
     android:clickable="true">
 
-    <TextView
-        android:id="@+id/title_vh"
+    <LinearLayout
+        android:id="@+id/recycler_linear"
         android:layout_width="match_parent"
-        android:layout_height="23dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:textColor="@android:color/tertiary_text_light"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/date_vh" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:clickable="true"
+        android:background="?android:attr/selectableItemBackground">
 
-    <TextView
-        android:id="@+id/date_vh"
-        android:layout_width="wrap_content"
-        android:layout_height="27dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:textColor="@android:color/tertiary_text_light"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/text_vh"
-        android:layout_width="match_parent"
-        android:layout_height="27dp"
-        android:ems="10"
-        android:inputType="date"
-        android:textColor="@android:color/tertiary_text_light"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title_vh" />
+            <TextView
+                android:id="@+id/date_vh"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:maxLength="20"
+                android:textColor="@android:color/tertiary_text_light"
+                android:textSize="12sp" />
 
-    <TextView
-        android:id="@+id/spec"
-        android:layout_width="wrap_content"
-        android:layout_height="27dp"
-        android:inputType="textPostalAddress"
-        android:textColor="@android:color/tertiary_text_light"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:id="@+id/spec"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:inputType="textPostalAddress"
+                android:maxLength="20"
+                android:textColor="@android:color/tertiary_text_light"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/title_vh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:textColor="@android:color/tertiary_text_light"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/text_vh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="date"
+            android:textColor="@android:color/tertiary_text_light"
+            android:textSize="14sp" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

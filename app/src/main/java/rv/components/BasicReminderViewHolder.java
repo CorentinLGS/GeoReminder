@@ -4,6 +4,7 @@ import android.graphics.Point;
 import android.os.Build;
 import android.view.Display;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,6 +20,7 @@ public class BasicReminderViewHolder extends RecyclerView.ViewHolder {
 
     public TextView title_vh, text_vh, date_vh, spec_vh;
     public ConstraintLayout constaint_vh;
+    public LinearLayout recycler_linear;
 
     public BasicReminderViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -28,5 +30,6 @@ public class BasicReminderViewHolder extends RecyclerView.ViewHolder {
         date_vh = (TextView) itemView.findViewById(R.id.date_vh);
         spec_vh = (TextView) itemView.findViewById(R.id.spec);
         constaint_vh = itemView.findViewById(R.id.basic_recycler);
+        recycler_linear = itemView.findViewById(R.id.recycler_linear);
     }
 }

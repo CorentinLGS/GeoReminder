@@ -5,7 +5,7 @@
     android:id="@+id/basic_constaint"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F2121212">
+    android:background="#73121212">
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -21,6 +21,7 @@
             android:id="@+id/basic_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:background="#121212"
             android:ems="10"
             android:hint="@string/title"
@@ -39,12 +40,14 @@
             android:id="@+id/dt_constraint"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:background="#121212">
 
             <EditText
                 android:id="@+id/basic_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:clickable="true"
                 android:ems="10"
                 android:focusable="false"
@@ -59,8 +62,9 @@
 
             <EditText
                 android:id="@+id/basic_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:clickable="true"
                 android:ems="10"
                 android:focusable="false"
@@ -83,6 +87,7 @@
             android:id="@+id/basic_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="15"
             android:background="#121212"
             android:ems="10"
             android:gravity="start"
@@ -106,12 +111,14 @@
             android:id="@+id/vc_constraint"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:background="#121212">
 
             <ImageButton
                 android:id="@+id/validate_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:background="#121212"
                 android:clickable="true"
                 android:contentDescription="@string/validate_button"
@@ -121,8 +128,9 @@
 
             <ImageButton
                 android:id="@+id/cancel_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:background="#121212"
                 android:clickable="true"
                 android:contentDescription="@string/cencel_button"

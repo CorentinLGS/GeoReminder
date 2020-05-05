@@ -1,11 +1,13 @@
 package georeminder;
 
+import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -19,6 +21,7 @@ import com.example.georeminder.R;
 import java.util.Date;
 
 import models.GeoReminder;
+import models.MonthlyReminder;
 import models.Reminder;
 
 public class DisplayFragment extends Fragment {
@@ -44,27 +47,18 @@ public class DisplayFragment extends Fragment {
     }
 
     private void initView(){
-        Display display = getActivity().getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int width = size.x;
-        int height = size.y;
 
         TextView title = v.findViewById(R.id.display_title);
-        title.setHeight(height*1/14);
         title.setText(reminder.getTitle());
 
         TextView text = v.findViewById(R.id.display_content);
-        text.setHeight(height*10/14);
         text.setText(reminder.getContent());
 
         TextView dateView = v.findViewById(R.id.display_time);
-        dateView.setWidth(width*1/2);
         Date date = new Date(reminder.getDate());
         dateView.setText(date.toString());
 
         TextView timeView = v.findViewById(R.id.display_date);
-        timeView.setWidth(width*1/2);
         switch (reminder.getClass().getName()){
             case "models.MonthlyReminder":
                 timeView.setText("Monthly");
@@ -86,17 +80,75 @@ public class DisplayFragment extends Fragment {
                 break;
         }
 
+        Button edit = v.findViewById(R.id.display_edit_button);
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                launchEdit();
+                getActivity().getSupportFragmentManager().popBackStack();
+            }
+        });
 
-        LinearLayout dtView = v.findViewById(R.id.display_dt_constraint);
-        dtView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height*1/14));
+        Button done = v.findViewById(R.id.display_done_button);
+        done.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reminder.setDone(true);
+                MainActivity.dbmanager.updateInBase(reminder);
+                refresh();
+            }
+        });
 
-        ImageButton validate = v.findViewById(R.id.display_validate_button);
-        validate.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height*1/14));
+        Button delete = v.findViewById(R.id.display_delete_button);
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity.dbmanager.removeFromBase(reminder);
+                refresh();
+                getActivity().getSupportFragmentManager().popBackStack();
+            }
+        });
     }
 
     public static DisplayFragment newInstance(Reminder reminder) {
         return (new DisplayFragment(reminder));
     }
 
+    private void launchEdit(){
+        Intent intent;
+        switch (reminder.getClass().getName())
+        {
+            case "models.MonthlyReminder":
+                intent = new Intent(getContext(), AddRoutineActivity.class);
+            case "models.WeeklyReminder":
+                intent = new Intent(getContext(), AddRoutineActivity.class);
+            case "models.DailyReminder":
+                intent = new Intent(getContext(), AddRoutineActivity.class);
+            case "models.GeoReminder":
+                intent = new Intent(getContext(), AddGeoActivity.class);
+            default:
+                intent = new Intent(getContext(), AddNoteActivity.class);
+                break;
+        }
+        intent.putExtras(reminder.takeData());
+        startActivity(intent);
+    }
+
+    private void refresh(){
+        switch (reminder.getClass().getName())
+        {
+            case "models.MonthlyReminder":
+                MainActivity.dbmanager.retrieveMonthlyReminders();
+            case "models.WeeklyReminder":
+                MainActivity.dbmanager.retrieveWeeklyReminder();
+            case "models.DailyReminder":
+                MainActivity.dbmanager.retrieveDailyReminder();
+            case "models.GeoReminder":
+                MainActivity.dbmanager.retrieveGeoReminder();
+            default:
+                MainActivity.dbmanager.retrieveBasicReminder();
+                break;
+        }
+    }
 
 }

@@ -1,6 +1,7 @@
 package georeminder;
 
 import android.content.Context;
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.LocationManager;
@@ -44,7 +45,10 @@ public class RemindersFragment extends Fragment {
     private BasicReminderAdapter basicAdapter;
     private GeoReminderAdapter geoAdapder;
     private RoutineReminderAdapter routinesAdapter;
-    private LinearLayout fab_linear;
+    private FloatingActionButton reminders_fab;
+
+    private Intent intent;
+
     private int type;
 
     private View v;
@@ -68,6 +72,7 @@ public class RemindersFragment extends Fragment {
 
     private void initRecycler(){
         textView = v.findViewById(R.id.recycler_text);
+        reminders_fab = v.findViewById(R.id.reminders_fab);
         basicRecyclerView = v.findViewById(R.id.basic_recycler_fragment);
         basicAdapter = new BasicReminderAdapter(MainActivity.dbmanager.getUser_().getBasic_());
         basicAdapter.addContext(getActivity());
@@ -84,18 +89,29 @@ public class RemindersFragment extends Fragment {
             case 0:
                 textView.setText("Reminders");
                 basicRecyclerView.setAdapter(basicAdapter);
+                intent = new Intent(getContext(), AddNoteActivity.class);
                 break;
             case 1:
                 textView.setText("GeoReminders");
                 basicRecyclerView.setAdapter(geoAdapder);
+                intent = new Intent(getContext(), AddGeoActivity.class);
                 break;
             case 2:
                 textView.setText("Routines");
                 basicRecyclerView.setAdapter(routinesAdapter);
+                intent = new Intent(getContext(), AddRoutineActivity.class);
                 break;
             default:
                 break;
         }
+
+        reminders_fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(intent != null)
+                    getContext().startActivity(intent);
+            }
+        });
 
     }
 

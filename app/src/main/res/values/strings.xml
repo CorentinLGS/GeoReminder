@@ -30,4 +30,7 @@
     <string name="logout">SignOut</string>
     <string name="navigation_drawer_open">Open Menu</string>
     <string name="navigation_drawer_close">Close Menu</string>
+    <string name="modify">Modify</string>
+    <string name="delete">Delete</string>
+    <string name="mark_as_done">Mark as done</string>
 </resources>

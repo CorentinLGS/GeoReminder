@@ -34,6 +34,7 @@
             android:layout_marginTop="120dp"
             android:inputType="textEmailAddress"
             android:text="YOLOOOOO"
+            android:textColor="@android:color/tertiary_text_light"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -45,6 +46,7 @@
             android:layout_marginLeft="16dp"
             android:inputType="textPersonName"
             android:text="TextView"
+            android:textColor="@android:color/tertiary_text_light"
             app:layout_constraintBottom_toTopOf="@+id/header_email"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/header_image" />

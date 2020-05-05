@@ -60,50 +60,14 @@ public class RemindersService extends IntentService {
         }
     }
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O) {
-            startMyOwnForeground();
-        }
-
-        else {
-            startForeground(1, new Notification());
-        }
-
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    private void startMyOwnForeground()
-    {
-        String NOTIFICATION_CHANNEL_ID = "example.permanence";
-        String channelName = "Background Service";
-        NotificationChannel chan = new NotificationChannel(NOTIFICATION_CHANNEL_ID, channelName, NotificationManager.IMPORTANCE_DEFAULT);
-        chan.setLightColor(Color.BLUE);
-        chan.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
-        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        assert manager != null;
-        manager.createNotificationChannel(chan);
-
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
-        Notification notification = notificationBuilder.setOngoing(true)
-                .setContentTitle("App is running in background")
-                .setPriority(NotificationManager.IMPORTANCE_MIN)
-                .setCategory(Notification.CATEGORY_SERVICE)
-                .setSmallIcon(R.drawable.ic_launcher_foreground)
-                .setContentText("Content")
-                .build();
-        startForeground(2, notification);
-    }
-
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void sendPendingNotification(){
-        Intent intent = new Intent(getBaseContext(), Alarm.class);
+        Intent intent = new Intent(this, Alarm.class);
         intent.putExtras(notificationContainer.reminder.takeData());
         if(hasExistingNotification(intent)){
-        PendingIntent pendingIntent = PendingIntent.getService(this, notificationContainer.reminder.getUri().hashCode(), intent,0);
-        AlarmManager am = (AlarmManager)getSystemService(IntentService.ALARM_SERVICE);
-        am.set(AlarmManager.RTC_WAKEUP, notificationContainer.nextNotificationTime.getTime() ,pendingIntent);
+            PendingIntent pendingIntent = PendingIntent.getService(this, notificationContainer.reminder.getUri().hashCode(), intent,0);
+            AlarmManager am = (AlarmManager)getSystemService(IntentService.ALARM_SERVICE);
+            am.set(AlarmManager.RTC_WAKEUP, notificationContainer.nextNotificationTime.getTime() ,pendingIntent);
         }
     }
 
@@ -124,13 +88,14 @@ public class RemindersService extends IntentService {
         public void setNextNotificationTime() {
             long deadline = reminder.getDeadline();
             Calendar calendar = Calendar.getInstance();
-            if(deadline- calendar.getTime().getTime() <0) {
-                long diff = calendar.getTime().getTime() - deadline;
-                if(diff/2 >= 600000){
+            if(deadline - calendar.getTime().getTime() >0) {
+                long diff = deadline - calendar.getTime().getTime() ;
+                if(diff/2 >= 300000){
+                    Date test = new Date(deadline);
                     nextNotificationTime = new Date( calendar.getTime().getTime() + diff/2 );
                 }
-                else if (diff < 60000) nextNotificationTime =null;
-                else nextNotificationTime = new Date( deadline - 60000 );
+                else if (diff < 300000) nextNotificationTime =null;
+                else nextNotificationTime = new Date( deadline - 300000 );
             }
 
         }

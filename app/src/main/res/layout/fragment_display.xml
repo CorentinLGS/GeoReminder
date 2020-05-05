@@ -5,7 +5,7 @@
     android:id="@+id/display_constaint"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F2121212">
+    android:background="#73121212">
 
     <LinearLayout
         android:id="@+id/display_linearLayout"
@@ -21,6 +21,7 @@
             android:id="@+id/display_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:background="#121212"
             android:editable="false"
             android:ems="10"
@@ -40,12 +41,14 @@
             android:id="@+id/display_dt_constraint"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:background="#121212">
 
             <EditText
                 android:id="@+id/display_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:clickable="true"
                 android:editable="false"
                 android:ems="10"
@@ -53,6 +56,7 @@
                 android:hint="@string/time"
                 android:importantForAutofill="no"
                 android:inputType="time"
+                android:maxLength="20"
                 android:paddingStart="20dp"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
@@ -61,8 +65,9 @@
 
             <EditText
                 android:id="@+id/display_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:clickable="true"
                 android:editable="false"
                 android:ems="10"
@@ -70,6 +75,7 @@
                 android:hint="@string/date"
                 android:importantForAutofill="no"
                 android:inputType="date"
+                android:maxLength="20"
                 android:paddingStart="20dp"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
@@ -86,6 +92,7 @@
             android:id="@+id/display_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="14"
             android:background="#121212"
             android:editable="false"
             android:ems="10"
@@ -106,16 +113,48 @@
             android:layout_width="match_parent"
             android:layout_height="4dp" />
 
-        <ImageButton
-            android:id="@+id/display_validate_button"
+        <LinearLayout
+            android:id="@+id/md_linearlayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#121212"
-            android:clickable="true"
-            android:contentDescription="@string/validate_button"
-            android:focusable="true"
-            android:src="@android:drawable/ic_menu_edit"
-            android:visibility="visible" />
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/display_edit_button"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#121212"
+                android:clickable="true"
+                android:contentDescription="@string/validate_button"
+                android:focusable="true"
+                android:text="@string/modify"
+                android:textColor="@android:color/tertiary_text_light"
+                android:visibility="visible" />
+
+            <Button
+                android:id="@+id/display_done_button"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#121212"
+                android:clickable="true"
+                android:focusable="true"
+                android:text="@string/mark_as_done"
+                android:textColor="@android:color/tertiary_text_light" />
+
+            <Button
+                android:id="@+id/display_delete_button"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#121212"
+                android:clickable="true"
+                android:focusable="true"
+                android:text="@string/delete"
+                android:textColor="@android:color/tertiary_text_light" />
+        </LinearLayout>
 
     </LinearLayout>
 

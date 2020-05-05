@@ -21,6 +21,15 @@ public class GeoReminderAdapter extends RecyclerView.Adapter<BasicReminderViewHo
 
     private Vector<GeoReminder> reminders_;
     private Context context;
+    private GeoReminder currentReminder;
+
+    private final View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            MainActivity context1 = (MainActivity) context;
+            context1.showDisplayFragment(currentReminder);
+        }
+    };
 
     public GeoReminderAdapter( Vector<GeoReminder> reminders){
         reminders_ = reminders;
@@ -37,19 +46,16 @@ public class GeoReminderAdapter extends RecyclerView.Adapter<BasicReminderViewHo
     @Override
     public void onBindViewHolder(@NonNull BasicReminderViewHolder holder, int position) {
         if(reminders_ != null) {
-            final GeoReminder reminder = reminders_.get(position);
-            holder.title_vh.setText(reminder.getTitle());
-            Date date = new Date(reminder.getDate());
+            currentReminder = reminders_.get(position);
+            holder.title_vh.setText(currentReminder.getTitle());
+            holder.title_vh.setOnClickListener(onClickListener);
+            Date date = new Date(currentReminder.getDate());
             holder.date_vh.setText(date.toString());
-            holder.text_vh.setText(reminder.getContent());
-            holder.spec_vh.setText(reminder.getGps());
-            holder.text_vh.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    MainActivity context1 = (MainActivity) context;
-                    context1.showDisplayFragment(reminder);
-                }
-            });
+            holder.date_vh.setOnClickListener(onClickListener);
+            holder.text_vh.setText(currentReminder.getContent());
+            holder.text_vh.setOnClickListener(onClickListener);
+            holder.spec_vh.setText(currentReminder.getGps());
+            holder.spec_vh.setOnClickListener(onClickListener);
         }
     }
 
