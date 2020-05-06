@@ -25,13 +25,11 @@
             android:background="#121212"
             android:editable="false"
             android:ems="10"
-            android:hint="@string/title"
             android:importantForAutofill="no"
             android:inputType="textPersonName"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:textColor="@android:color/tertiary_text_light"
-            android:textColorHint="#54FFFFFF" />
+            android:textColor="@android:color/tertiary_text_light" />
 
         <Space
             android:layout_width="match_parent"
@@ -53,15 +51,13 @@
                 android:editable="false"
                 android:ems="10"
                 android:focusable="false"
-                android:hint="@string/time"
                 android:importantForAutofill="no"
                 android:inputType="time"
                 android:maxLength="20"
                 android:paddingStart="20dp"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:textColor="@android:color/tertiary_text_light"
-                android:textColorHint="#54FFFFFF" />
+                android:textColor="@android:color/tertiary_text_light" />
 
             <EditText
                 android:id="@+id/display_date"
@@ -72,15 +68,13 @@
                 android:editable="false"
                 android:ems="10"
                 android:focusable="false"
-                android:hint="@string/date"
                 android:importantForAutofill="no"
                 android:inputType="date"
                 android:maxLength="20"
                 android:paddingStart="20dp"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:textColor="@android:color/tertiary_text_light"
-                android:textColorHint="#54FFFFFF" />
+                android:textColor="@android:color/tertiary_text_light" />
 
         </LinearLayout>
 
@@ -97,7 +91,6 @@
             android:editable="false"
             android:ems="10"
             android:gravity="start"
-            android:hint="@string/text"
             android:importantForAutofill="no"
             android:inputType="textMultiLine"
             android:padding="20dp"
@@ -106,8 +99,7 @@
             android:paddingRight="20dp"
             android:scrollbars="vertical"
             android:selectAllOnFocus="false"
-            android:textColor="@android:color/tertiary_text_light"
-            android:textColorHint="#54FFFFFF" />
+            android:textColor="@android:color/tertiary_text_light" />
 
         <Space
             android:layout_width="match_parent"

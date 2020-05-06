@@ -36,9 +36,8 @@ public class Alarm extends BroadcastReceiver {
         }
 
         String NOTIFICATION_CHANNEL_ID = "georeminder.reminders";
-        String channelName = "Reminders notifications";
+        String channelName = "Reminders";
         NotificationChannel chan = new NotificationChannel(NOTIFICATION_CHANNEL_ID, channelName, NotificationManager.IMPORTANCE_DEFAULT);
-        chan.setLightColor(Color.BLUE);
         chan.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
 
         NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -51,11 +50,13 @@ public class Alarm extends BroadcastReceiver {
                 .setPriority(NotificationManager.IMPORTANCE_MIN)
                 .setCategory(Notification.CATEGORY_SERVICE)
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setChannelId(NOTIFICATION_CHANNEL_ID)
                 .setContentText(reminder.getContent())
                 .build();
 
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(context);
-        notificationManagerCompat.notify(reminder.getUri().hashCode(), notificationBuilder.build());
+        notificationManagerCompat.notify(reminder.getUri().hashCode(), notification);
+
 
 
     }
