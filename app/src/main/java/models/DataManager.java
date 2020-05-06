@@ -262,8 +262,9 @@ public class DataManager {
                                 reminder.setUri(document.getId());
                                 user_.addMonthlyReminder(reminder);
                             }
+                            user_.updateRoutines();
+                            RemindersFragment.basicRecyclerView.getAdapter().notifyDataSetChanged();
                         }
-                        RemindersFragment.basicRecyclerView.getAdapter().notifyDataSetChanged();
                     }
                 });
     }
@@ -282,6 +283,7 @@ public class DataManager {
                                 reminder.setUri(document.getId());
                                 user_.addWeeklyReminder(reminder);
                             }
+                            user_.updateRoutines();
                             RemindersFragment.basicRecyclerView.getAdapter().notifyDataSetChanged();
                         }
                     }
@@ -302,6 +304,7 @@ public class DataManager {
                                 reminder.setUri(document.getId());
                                 user_.addDailyReminder(reminder);
                             }
+                            user_.updateRoutines();
                             RemindersFragment.basicRecyclerView.getAdapter().notifyDataSetChanged();
                         }
                     }

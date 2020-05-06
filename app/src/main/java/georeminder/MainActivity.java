@@ -24,6 +24,8 @@ import com.bumptech.glide.Glide;
 import com.example.georeminder.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -39,16 +41,20 @@ public class MainActivity extends AppCompatActivity {
 
     private FirebaseUser fUser;
     private User user;
+    private GoogleSignInClient gSUser;
     private GoogleSignInAccount gUser;
     public static DataManager dbmanager;
 
     private NavigationView navigationView;
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
+    private DrawerLayout drawerLayoutRight;
     private Menu menu;
 
     private RemindersFragment remindersFragment;
     private static DisplayFragment displayFragment;
+
+    private boolean tablet;
 
 
     @Override
@@ -56,8 +62,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken("522631764160-kovqe166a73u27h6f78qjc6jmaspd5mc.apps.googleusercontent.com")
+                .requestEmail()
+                .build();
+
         fUser = FirebaseAuth.getInstance().getCurrentUser();
-        gUser = GoogleSignIn.getLastSignedInAccount(getBaseContext());
+        gSUser = GoogleSignIn.getClient(this, gso);
+        gUser = GoogleSignIn.getLastSignedInAccount(this);
         user = new User(fUser.getUid(), fUser.getDisplayName());
 
         navigationView = findViewById(R.id.main_navigation_view);
@@ -82,6 +94,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         showRemindersFragment();
+        if(tablet){
+            showDisplayFragment(null);
+        }
     }
 
     private void configureToolBar() {
@@ -91,6 +106,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void configureDrawerLayout() {
         drawerLayout = findViewById(R.id.drawerLayout);
+        if(findViewById(R.id.drawerLayout_right) != null) {
+            drawerLayoutRight = findViewById(R.id.drawerLayout_right);
+            tablet = true;
+        }
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
@@ -163,6 +182,8 @@ public class MainActivity extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 FirebaseAuth mAuth = FirebaseAuth.getInstance();
                 mAuth.signOut();
+                gSUser.revokeAccess();
+
                 Intent intent = new Intent(getBaseContext(), LoginActivity.class);
                 startActivity(intent);
                 finish();
@@ -184,8 +205,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void StartTransactionDisplayFragment(DisplayFragment fragment) {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.main_framelayout, fragment).addToBackStack(null).commit();
+        if(!tablet)
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.main_framelayout, fragment).addToBackStack(null).commit();
+        else
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.main_frameLayout_right, fragment).addToBackStack(null).commit();
+
     }
 
 

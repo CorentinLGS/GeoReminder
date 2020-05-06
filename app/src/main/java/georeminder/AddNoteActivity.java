@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -157,11 +158,17 @@ public class AddNoteActivity extends Activity {
                     e.printStackTrace();
                 }
                 Calendar c = Calendar.getInstance();
-                Reminder reminder = new Reminder(title.getText().toString(), text.getText().toString(), c.getTime().getTime(), date.getTime());
-                reminder.setUri(uri);
-                MainActivity.dbmanager.addDataToBase(reminder);
-                MainActivity.dbmanager.retrieveBasicReminder();
-                finish();
+                if (title.getText().length() != 0 && date != null) {
+                    Reminder reminder = new Reminder(title.getText().toString(), text.getText().toString(), c.getTime().getTime(), date.getTime());
+                    reminder.setUri(uri);
+                    MainActivity.dbmanager.addDataToBase(reminder);
+                    MainActivity.dbmanager.retrieveBasicReminder();
+                    finish();
+                }
+                else{
+                    Toast toast = Toast.makeText(getBaseContext(), "Please fill in all the information", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
             }
         });
 

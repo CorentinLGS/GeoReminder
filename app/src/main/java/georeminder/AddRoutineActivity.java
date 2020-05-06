@@ -11,6 +11,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -123,54 +124,57 @@ public class AddRoutineActivity extends Activity {
                 Date deadline = null;
                 String deadHour = "23:59:59";
 
-                if(dailyCB.isChecked()){
-                    String dLine = dFormat.format(currentTime) +" "+ deadHour;
-                    SimpleDateFormat fFormat = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
-                    try {
-                        deadline = fFormat.parse(dLine);
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    DailyReminder reminder = new DailyReminder(title.getText().toString(), text.getText().toString(), currentTime.getTime(), deadline.getTime());
-                    reminder.setUri(uri);
-                    MainActivity.dbmanager.addDataToBase(reminder);
-                    MainActivity.dbmanager.retrieveDailyReminder();
-                }
+                if(title.getText().length() != 0) {
+                    if (dailyCB.isChecked()) {
+                        String dLine = dFormat.format(currentTime) + " " + deadHour;
+                        SimpleDateFormat fFormat = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
+                        try {
+                            deadline = fFormat.parse(dLine);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        DailyReminder reminder = new DailyReminder(title.getText().toString(), text.getText().toString(), currentTime.getTime(), deadline.getTime());
+                        reminder.setUri(uri);
+                        MainActivity.dbmanager.addDataToBase(reminder);
+                        MainActivity.dbmanager.retrieveDailyReminder();
+                    } else if (weeklyCB.isChecked()) {
+                        c.set(Calendar.DAY_OF_WEEK, 7);
+                        Date lastDay = c.getTime();
+                        String dLine = dFormat.format(lastDay) + " " + deadHour;
+                        SimpleDateFormat fFormat = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
+                        try {
+                            deadline = fFormat.parse(dLine);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        WeeklyReminder reminder = new WeeklyReminder(title.getText().toString(), text.getText().toString(), currentTime.getTime(), deadline.getTime());
+                        reminder.setUri(uri);
+                        MainActivity.dbmanager.addDataToBase(reminder);
+                        MainActivity.dbmanager.retrieveWeeklyReminder();
 
-                else if(weeklyCB.isChecked()){
-                    c.set(Calendar.DAY_OF_WEEK, 7);
-                    Date lastDay = c.getTime();
-                    String dLine = dFormat.format(lastDay) +" "+ deadHour;
-                    SimpleDateFormat fFormat = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
-                    try {
-                        deadline = fFormat.parse(dLine);
-                    } catch (ParseException e) {
-                        e.printStackTrace();
+                    } else if (monthlyCB.isChecked()) {
+                        int lastDayMonth = Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH);
+                        c.set(Calendar.DAY_OF_MONTH, lastDayMonth);
+                        Date lastDay = c.getTime();
+                        String dLine = dFormat.format(lastDay) + " " + deadHour;
+                        SimpleDateFormat fFormat = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
+                        try {
+                            deadline = fFormat.parse(dLine);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        MonthlyReminder reminder = new MonthlyReminder(title.getText().toString(), text.getText().toString(), currentTime.getTime(), deadline.getTime());
+                        reminder.setUri(uri);
+                        MainActivity.dbmanager.addDataToBase(reminder);
+                        MainActivity.dbmanager.retrieveMonthlyReminders();
                     }
-                    WeeklyReminder reminder = new WeeklyReminder(title.getText().toString(), text.getText().toString(),currentTime.getTime(), deadline.getTime());
-                    reminder.setUri(uri);
-                    MainActivity.dbmanager.addDataToBase(reminder);
-                    MainActivity.dbmanager.retrieveWeeklyReminder();
-                }
 
-                else if(monthlyCB.isChecked()){
-                    int lastDayMonth = Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH);
-                    c.set(Calendar.DAY_OF_MONTH, lastDayMonth);
-                    Date lastDay = c.getTime();
-                    String dLine = dFormat.format(lastDay) +" "+ deadHour;
-                    SimpleDateFormat fFormat = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
-                    try {
-                        deadline = fFormat.parse(dLine);
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    MonthlyReminder reminder = new MonthlyReminder(title.getText().toString(), text.getText().toString(), currentTime.getTime(), deadline.getTime());
-                    reminder.setUri(uri);
-                    MainActivity.dbmanager.addDataToBase(reminder);
-                    MainActivity.dbmanager.retrieveMonthlyReminders();
+                    finish();
                 }
-
-                finish();
+                else{
+                Toast toast = Toast.makeText(getBaseContext(), "Please fill in all the information", Toast.LENGTH_SHORT);
+                toast.show();
+                }
             }
         });
 

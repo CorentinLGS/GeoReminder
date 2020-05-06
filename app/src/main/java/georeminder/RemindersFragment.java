@@ -53,6 +53,7 @@ public class RemindersFragment extends Fragment {
 
     private View v;
 
+    public RemindersFragment(){}
     public RemindersFragment(int type){
         this.type = type;
     }

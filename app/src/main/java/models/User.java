@@ -11,6 +11,7 @@ public class User {
     private Vector<WeeklyReminder> weekly_;
     private Vector<DailyReminder> daily_;
     private Vector<GeoReminder> geo_;
+    private Vector<Reminder> routines_;
 
     public User(){
         basic_ = new Vector<Reminder>();
@@ -18,6 +19,7 @@ public class User {
         weekly_ = new Vector<WeeklyReminder>();
         daily_ = new Vector<DailyReminder>();
         geo_ = new Vector<GeoReminder>();
+        routines_ = new Vector<Reminder>();
     };
 
     public User(String uid, String username){
@@ -28,6 +30,7 @@ public class User {
         weekly_ = new Vector<WeeklyReminder>();
         daily_ = new Vector<DailyReminder>();
         geo_ = new Vector<GeoReminder>();
+        routines_ = new Vector<Reminder>();
     }
 
     public void addMonthlyReminder( MonthlyReminder reminder){
@@ -89,11 +92,7 @@ public class User {
     }
 
     public Vector<Reminder> getRoutines(){
-        Vector<Reminder> routines= new Vector<Reminder>();
-        routines.addAll(getDaily_());
-        routines.addAll(getWeekly_());
-        routines.addAll(getMonthly_());
-        return routines;
+        return routines_;
     }
 
     public void clearBasic(){
@@ -114,6 +113,13 @@ public class User {
 
     public void clearMonthly(){
         monthly_.clear();
+    }
+
+    public void updateRoutines(){
+        routines_.clear();
+        routines_.addAll(getDaily_());
+        routines_.addAll(getWeekly_());
+        routines_.addAll(getMonthly_());
     }
 
 

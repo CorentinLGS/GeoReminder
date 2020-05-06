@@ -1,6 +1,7 @@
 package rv.components;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,6 +53,8 @@ public class BasicReminderAdapter extends RecyclerView.Adapter<BasicReminderView
             holder.date_vh.setOnClickListener(onClickListener);
             holder.text_vh.setText(currentReminder.getContent());
             holder.text_vh.setOnClickListener(onClickListener);
+            if(currentReminder.getDone()) holder.constaint_vh.setBackgroundColor(Color.parseColor("#005000"));
+            else holder.constaint_vh.setBackgroundColor(Color.parseColor("#73000000"));
         }
     }
 

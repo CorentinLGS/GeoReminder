@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import androidx.annotation.Nullable;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.widget.Toast;
 
 import com.example.georeminder.R;
 
@@ -84,11 +85,18 @@ public class AddGeoActivity extends Activity{
             @Override
             public void onClick(View v) {
                 Calendar c = Calendar.getInstance();
-                GeoReminder reminder = new GeoReminder(title.getText().toString(), text.getText().toString(), c.getTime().getTime(), adress.getText().toString());
-                reminder.setUri(uri);
-                MainActivity.dbmanager.addDataToBase(reminder);
-                MainActivity.dbmanager.retrieveGeoReminder();
-                finish();
+                if( title.getText().length() != 0 && adress.getText().length() != 0) {
+                    String test = title.getText().toString();
+                    GeoReminder reminder = new GeoReminder(title.getText().toString(), text.getText().toString(), c.getTime().getTime(), adress.getText().toString());
+                    reminder.setUri(uri);
+                    MainActivity.dbmanager.addDataToBase(reminder);
+                    MainActivity.dbmanager.retrieveGeoReminder();
+                    finish();
+                }
+                else{
+                    Toast toast = Toast.makeText(getBaseContext(), "Please fill in all the information", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
             }
         });
 
